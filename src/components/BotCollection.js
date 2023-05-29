@@ -1,22 +1,32 @@
 import React, { useState } from "react";
 import BotCard from "./BotCard";
-import Filter from "./Filter";
+import SortBar from "./SortBar";
 
 function BotCollection({ bots, displayBot, deleteBot }) {
-  const [filterId, setFilterId] = useState("");
+  const [filterIds, setFilterIds] = useState([]);
+  const [selectedSort, setSelectedSort] = useState("");
 
-  function handleFilter(filterId) {
-    setFilterId(filterId);
+  function handleFilter(filters) {
+    setFilterIds(filters);
   }
 
-  const selectedBots = [...bots].sort((a, b) => {
-    if (filterId === "health") {
+  function handleSort(sort) {
+    setSelectedSort(sort);
+  }
+
+  const filteredBots = bots.filter((bot) => {
+    if (filterIds.length === 0) return true;
+    return filterIds.includes(bot.bot_class);
+  });
+
+  const sortedBots = [...filteredBots].sort((a, b) => {
+    if (selectedSort === "health") {
       return b.health - a.health;
     }
-    if (filterId === "damage") {
+    if (selectedSort === "damage") {
       return b.damage - a.damage;
     }
-    if (filterId === "armor") {
+    if (selectedSort === "armor") {
       return b.armor - a.armor;
     }
     return 0;
@@ -25,8 +35,8 @@ function BotCollection({ bots, displayBot, deleteBot }) {
   return (
     <div className="ui four column grid">
       <div className="row">
-        <Filter onFilter={handleFilter} />
-        {selectedBots.map((bot) => (
+        <SortBar onSort={handleSort} onFilter={handleFilter} />
+        {sortedBots.map((bot) => (
           <BotCard
             bot={bot}
             key={bot.id}

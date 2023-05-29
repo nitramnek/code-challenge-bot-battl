@@ -7,6 +7,7 @@ function BotsPage() {
   const [bots, setBots] = useState(null);
   const [army, setArmy] = useState([]);
   const [selectedBot, setSelectedBot] = useState(null);
+  const [enlistedClasses, setEnlistedClasses] = useState([]);
 
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -46,14 +47,18 @@ function BotsPage() {
   }
 
   function addToArmy(bot) {
-    if (!army.includes(bot)) {
+    const { bot_class } = bot;
+
+    if (!enlistedClasses.includes(bot_class)) {
       setArmy([...army, bot]);
+      setEnlistedClasses([...enlistedClasses, bot_class]);
       setBots(bots.filter((b) => b.id !== bot.id));
     }
   }
 
   function removeFromArmy(bot) {
     setArmy(army.filter((b) => b !== bot));
+    setEnlistedClasses(enlistedClasses.filter((c) => c !== bot.bot_class));
     setBots([bot, ...bots]);
   }
 
