@@ -1,3 +1,4 @@
+// K3N5C0DE
 import React from "react";
 
 const botTypeClasses = {
@@ -35,25 +36,20 @@ function BotSpecs({ bot, addToArmy, backToCollection }) {
             <div className="ui segment">
               <div className="ui three column centered grid">
                 <div className="row">
-                  <div className="column">
-                    <i className="icon large circular red heartbeat" />
-                    <strong>{bot.health}</strong>
-                  </div>
-                  <div className="column">
-                    <i className="icon large circular yellow lightning" />
-                    <strong>{bot.damage}</strong>
-                  </div>
-                  <div className="column">
-                    <i className="icon large circular blue shield" />
-                    <strong>{bot.armor}</strong>
-                  </div>
+                  {[
+                    { iconClass: "icon large circular red heartbeat", value: bot.health },
+                    { iconClass: "icon large circular yellow lightning", value: bot.damage },
+                    { iconClass: "icon large circular blue shield", value: bot.armor },
+                  ].map(({ iconClass, value }) => (
+                    <div className="column" key={iconClass}>
+                      <i className={iconClass} />
+                      <strong>{value}</strong>
+                    </div>
+                  ))}
                 </div>
               </div>
             </div>
-            <button
-              className="ui button fluid"
-              onClick={() => backToCollection()}
-            >
+            <button className="ui button fluid" onClick={backToCollection}>
               Go Back
             </button>
             <button className="ui button fluid" onClick={() => addToArmy(bot)}>

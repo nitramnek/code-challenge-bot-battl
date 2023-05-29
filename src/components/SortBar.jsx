@@ -1,3 +1,4 @@
+// K3N5C0DE
 import React, { useState } from "react";
 
 function SortBar({ onSort, onFilter }) {
@@ -6,11 +7,13 @@ function SortBar({ onSort, onFilter }) {
 
   const handleFilter = (event) => {
     const { value, checked } = event.target;
-    if (checked) {
-      setSelectedFilters([...selectedFilters, value]);
-    } else {
-      setSelectedFilters(selectedFilters.filter((filter) => filter !== value));
-    }
+    setSelectedFilters((prevFilters) => {
+      if (checked) {
+        return [...prevFilters, value];
+      } else {
+        return prevFilters.filter((filter) => filter !== value);
+      }
+    });
   };
 
   const handleSort = (event) => {
@@ -18,6 +21,15 @@ function SortBar({ onSort, onFilter }) {
     setSelectedSort(value);
     onSort(value);
   };
+
+  const filterOptions = [
+    { label: "Support", value: "Support" },
+    { label: "Medic", value: "Medic" },
+    { label: "Assault", value: "Assault" },
+    { label: "Defender", value: "Defender" },
+    { label: "Captain", value: "Captain" },
+    { label: "Witch", value: "Witch" },
+  ];
 
   return (
     <div className="sort">
@@ -29,60 +41,17 @@ function SortBar({ onSort, onFilter }) {
         <option value="armor">Armor</option>
       </select>
       <div>
-        <label>
-          <input
-            type="checkbox"
-            value="Support"
-            checked={selectedFilters.includes("Support")}
-            onChange={handleFilter}
-          />
-          Support
-        </label>
-        <label>
-          <input
-            type="checkbox"
-            value="Medic"
-            checked={selectedFilters.includes("Medic")}
-            onChange={handleFilter}
-          />
-          Medic
-        </label>
-        <label>
-          <input
-            type="checkbox"
-            value="Assault"
-            checked={selectedFilters.includes("Assault")}
-            onChange={handleFilter}
-          />
-          Assault
-        </label>
-        <label>
-          <input
-            type="checkbox"
-            value="Defender"
-            checked={selectedFilters.includes("Defender")}
-            onChange={handleFilter}
-          />
-          Defender
-        </label>
-        <label>
-          <input
-            type="checkbox"
-            value="Captain"
-            checked={selectedFilters.includes("Captain")}
-            onChange={handleFilter}
-          />
-          Captain
-        </label>
-        <label>
-          <input
-            type="checkbox"
-            value="Witch"
-            checked={selectedFilters.includes("Witch")}
-            onChange={handleFilter}
-          />
-          Witch
-        </label>
+        {filterOptions.map((option) => (
+          <label key={option.value}>
+            <input
+              type="checkbox"
+              value={option.value}
+              checked={selectedFilters.includes(option.value)}
+              onChange={handleFilter}
+            />
+            {option.label}
+          </label>
+        ))}
       </div>
       <button onClick={() => onFilter(selectedFilters)}>Apply Filters</button>
     </div>

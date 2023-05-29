@@ -14,7 +14,7 @@ function YourBotArmy({ bots, removeFromArmy, deleteBot }) {
               displayBot={removeFromArmy}
             />
           ))}
-          Your Bot Army
+          <span>Your Bot Army</span>
         </div>
       </div>
     </div>

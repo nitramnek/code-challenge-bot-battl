@@ -1,3 +1,4 @@
+//K3N5C0D3
 import React from "react";
 
 const botTypeClasses = {
@@ -10,9 +11,17 @@ const botTypeClasses = {
 };
 
 function BotCard({ bot, displayBot, deleteBot }) {
+  const handleCardClick = () => {
+    displayBot(bot);
+  };
+
+  const handleDeleteClick = () => {
+    deleteBot(bot.id);
+  };
+
   return (
     <div className="ui column">
-      <div className="ui card" key={bot.id} onClick={() => displayBot(bot)}>
+      <div className="ui card" onClick={handleCardClick}>
         <div className="image">
           <img alt="oh no!" src={bot.avatar_url} />
         </div>
@@ -30,7 +39,6 @@ function BotCard({ bot, displayBot, deleteBot }) {
             <i className="icon heartbeat" />
             {bot.health}
           </span>
-
           <span>
             <i className="icon lightning" />
             {bot.damage}
@@ -39,16 +47,11 @@ function BotCard({ bot, displayBot, deleteBot }) {
             <i className="icon shield" />
             {bot.armor}
           </span>
-          <span>
-            <div className="ui center aligned segment basic">
-              <button
-                className="ui mini red button"
-                onClick={() => deleteBot(bot.id)}
-              >
-                x
-              </button>
-            </div>
-          </span>
+          <div className="ui center aligned segment basic">
+            <button className="ui mini red button" onClick={handleDeleteClick}>
+              x
+            </button>
+          </div>
         </div>
       </div>
     </div>
